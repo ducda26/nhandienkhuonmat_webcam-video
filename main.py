@@ -39,7 +39,8 @@ print(len(encodeListKnow))
 
 
 # Khởi động webcam
-cap = cv2.VideoCapture(0)
+# cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("./video-test.mp4")
 
 while True:
     ret, frame = cap.read()
@@ -56,6 +57,15 @@ while True:
         matches = face_recognition.compare_faces(encodeListKnow, encodeFace)
         faceDis = face_recognition.face_distance(encodeListKnow, encodeFace)
         print(faceDis)
+        
+        #Càng nhỏ càng chính xác
+        matchIndex=np.argmin(faceDis)#đẩy về index của faceDis nhỏ nhất
+        print(matchIndex)
+        
+        if faceDis[matchIndex]<0.5: #muốn 0.4, 0.3... gì cũng được
+            name = classNames[matchIndex].upper()
+        else:
+            name = "Unknow"
 
     cv2.imshow("Anh Duc", frame)
     if cv2.waitKey(1) == ord("q"):  # độ trễ 1/1000s , nếu bấm q sẽ thoát
