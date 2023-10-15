@@ -19,4 +19,17 @@ for cl in myList:
     # splitext sẽ tách path ra thành 2 phần, phần trước đuôi mở rộng và phần mở rộng
 print(len(images))
 print(classNames)
+
+#Step 02: Xac dinh vi tri và ma hoa
+def Mahoa(images):
+    encodeList = []
+    for img in images:
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        encode = face_recognition.face_encodings(img)[0] #0: lấy 1 bức ảnh
+        encodeList.append(encode)
+    return encodeList
+
+encodeListKnow = Mahoa(images)
+print("Mã hóa thành công")
+print(len(encodeListKnow))
     
