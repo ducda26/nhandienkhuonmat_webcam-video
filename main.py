@@ -57,15 +57,22 @@ while True:
         matches = face_recognition.compare_faces(encodeListKnow, encodeFace)
         faceDis = face_recognition.face_distance(encodeListKnow, encodeFace)
         print(faceDis)
-        
-        #Càng nhỏ càng chính xác
-        matchIndex=np.argmin(faceDis)#đẩy về index của faceDis nhỏ nhất
+
+        # Càng nhỏ càng chính xác
+        matchIndex = np.argmin(faceDis)  # đẩy về index của faceDis nhỏ nhất
         print(matchIndex)
-        
-        if faceDis[matchIndex]<0.5: #muốn 0.4, 0.3... gì cũng được
+
+        if faceDis[matchIndex] < 0.5:  # muốn 0.4, 0.3... gì cũng được
             name = classNames[matchIndex].upper()
         else:
             name = "Unknow"
+
+        # Print ten len frame
+        y1, x2, y2, x1 = faceLoc
+        y1, x2, y2, x1 = y1*2, x2*2, y2*2, x1*2
+        cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+        cv2.putText(frame, name, (x2, y2),
+                    cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
 
     cv2.imshow("Anh Duc", frame)
     if cv2.waitKey(1) == ord("q"):  # độ trễ 1/1000s , nếu bấm q sẽ thoát
