@@ -2,6 +2,7 @@ import cv2
 import face_recognition
 import os
 import numpy as np
+from datetime import datetime
 
 # Step 01 Load ảnh từ kho ảnh nhận dạng
 
@@ -35,8 +36,21 @@ def Mahoa(images):
 
 encodeListKnow = Mahoa(images)
 print("Mã hóa thành công")
-print(len(encodeListKnow))
+print(len(encodeListKnow))  # có 3 mã
 
+#Lưu tên và thời gian hiển thị
+def thamdu(name):
+    with open('thamdu.csv', 'r+') as f:#r+: vừa read vừa writing
+        myDataList = f.readlines()
+        print(myDataList)
+        nameList = []
+        for line in myDataList:
+            entry = line.split(',') # tách theo dấu ,
+            nameList.append(entry[0])
+        if name not in nameList:
+            now = datetime.now() # trả về 2021-12-18 16:43:30.709791
+            dtString = now.strftime('%H:%M:%S') # biểu thị string giờ phút giây
+            f.writelines(f'\n{name},{dtString}')
 
 # Khởi động webcam
 # cap = cv2.VideoCapture(0)
@@ -64,6 +78,7 @@ while True:
 
         if faceDis[matchIndex] < 0.5:  # muốn 0.4, 0.3... gì cũng được
             name = classNames[matchIndex].upper()
+            thamdu(name)
         else:
             name = "Unknow"
 
